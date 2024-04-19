@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>3D Vending Machine</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script>
+    // Set up the scene, camera, and renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Create vending machine geometry
+    const vendingMachineWidth = 2;
+    const vendingMachineHeight = 4;
+    const vendingMachineDepth = 1;
+    const vendingMachineGeometry = new THREE.BoxGeometry(vendingMachineWidth, vendingMachineHeight, vendingMachineDepth);
+
+    // Create vending machine material
+    const vendingMachineMaterial = new THREE.MeshBasicMaterial({ color: 0x808080 });
+
+    // Create vending machine mesh
+    const vendingMachineMesh = new THREE.Mesh(vendingMachineGeometry, vendingMachineMaterial);
+    scene.add(vendingMachineMesh);
+
+    // Create screen geometry
+    const screenWidth = 1.8;
+    const screenHeight = 3.8;
+    const screenDepth = 0.1;
+    const screenGeometry = new THREE.BoxGeometry(screenWidth, screenHeight, screenDepth);
+
+    // Create screen material
+    const screenMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+
+    // Create screen mesh
+    const screenMesh = new THREE.Mesh(screenGeometry, screenMaterial);
+    screenMesh.position.set(0, 0, -(vendingMachineDepth / 2 + screenDepth / 2));
+    scene.add(screenMesh);
+
+    // Set camera position
+    camera.position.z = 5;
+
+    // Animation loop
+    function animate() {
+      requestAnimationFrame(animate);
+      vendingMachineMesh.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+
+</html>
